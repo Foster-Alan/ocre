@@ -3,6 +3,10 @@ body {
   color: white;
 }
 
+h1 {
+  text-align: center;
+}
+
 .App {
   display: flex;
   flex-wrap: wrap;
@@ -12,12 +16,19 @@ body {
 
 .etapaCard {
   border: 1px solid rgb(255, 255, 255);
+  border-radius: 25px;
   margin: 0.5rem;
   padding: 0.5rem;
-  width: 20rem;
+  min-width: 20rem;
+  min-height: 31.7rem;
+  background-color: rgb(19, 18, 18);
 }
 
 h2 {
+  text-align: center;
+}
+
+footer {
   text-align: center;
 }
 

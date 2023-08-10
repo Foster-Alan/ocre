@@ -345,6 +345,8 @@ const etapa21 = ["Ladinosujo, o Desarrumado",
   };
 
   return (
+    <>
+    <h1>Lista De Arquimonstros</h1>
     <div className="App">
       <div className="etapaCard">
       <h2>Etapa 20</h2>
@@ -617,6 +619,10 @@ const etapa21 = ["Ladinosujo, o Desarrumado",
       </div>
 
     </div>
+    <footer>
+      <p>Todos os direitos reservados a Alan Foster.</p>
+    </footer>
+    </>
   );
 }
 
