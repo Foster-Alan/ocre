@@ -344,9 +344,14 @@ const etapa21 = ["Ladinosujo, o Desarrumado",
     localStorage.setItem('ownedAnimals', JSON.stringify(updatedAnimals));
   };
 
+  const countOwnedAnimals = () => {
+    return ownedAnimals.length;
+  };
+
   return (
     <>
     <h1>Lista De Arquimonstros</h1>
+    <p>Em Posse: {countOwnedAnimals()}/286</p>
     <div className="App">
       <div className="etapaCard">
       <h2>Etapa 20</h2>
@@ -619,7 +624,7 @@ const etapa21 = ["Ladinosujo, o Desarrumado",
       </div>
 
     </div>
-    <footer>
+    <footer className="fot">
       <p>Todos os direitos reservados a Alan Foster.</p>
     </footer>
     </>

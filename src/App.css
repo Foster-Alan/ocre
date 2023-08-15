@@ -28,8 +28,17 @@ h2 {
   text-align: center;
 }
 
-footer {
-  text-align: center;
+p {
+  display: flex;
+  justify-content: flex-end;
+  color: yellow;
+  margin-right: 1rem;
+}
+
+footer p {
+  display: flex;
+  justify-content: center;
+  color: white;
 }
 
 .label-checked {
