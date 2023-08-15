@@ -28,11 +28,14 @@ h2 {
   text-align: center;
 }
 
-p {
+.total {
   display: flex;
-  justify-content: flex-end;
+  position: fixed;
+  right: 0;
+  justify-content: center;
   color: yellow;
-  margin-right: 1rem;
+  border: 1px solid yellow;
+  width: 6rem;
 }
 
 footer p {
@@ -41,6 +44,37 @@ footer p {
   color: white;
 }
 
-.label-checked {
-  color: red; /* Cor para animais marcados */
+ul {
+  list-style-type: none;
 }
+
+
+label {
+  /* border: 1px solid blue; */
+  display: flex;
+  justify-content: space-between;
+  /* padding: 0px 15px 0px 15px; */
+
+}
+
+.label-checked {
+  color: red;
+}
+
+.counter {
+  /* border: 1px solid red; */
+  display: flex;
+  gap: 0.3rem;
+}
+
+button {
+  color: red;
+  background-color: #000000;
+  cursor: pointer;
+}
+
+input[type="checkbox"] {
+  display: none;
+}
+
+

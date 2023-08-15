@@ -328,43 +328,74 @@ const etapa21 = ["Ladinosujo, o Desarrumado",
       "Tsumani, o Inundante"
     ];       
 
-  const [ownedAnimals, setOwnedAnimals] = useState([]);
+  const [ownedAnimals, setOwnedAnimals] = useState({});
+  const [counters, setCounters] = useState({});
+  const [totalOwned, setTotalOwned] = useState(0);
 
   useEffect(() => {
-    const savedAnimals = JSON.parse(localStorage.getItem('ownedAnimals') || '[]');
+    const savedAnimals = JSON.parse(localStorage.getItem('ownedAnimals') || '{}');
     setOwnedAnimals(savedAnimals);
+    const savedCounters = JSON.parse(localStorage.getItem('counters') || '{}');
+    setCounters(savedCounters);
   }, []);
 
-  const handleAnimalToggle = (animal) => {
-    const updatedAnimals = ownedAnimals.includes(animal)
-      ? ownedAnimals.filter(a => a !== animal)
-      : [...ownedAnimals, animal];
+  useEffect(() => {
+    const total = Object.values(counters).reduce((total, count) => total + count, 0);
+    setTotalOwned(total);
+  }, [counters]);
+
+  const handleAnimalToggle = (animal, action) => {
+    const updatedAnimals = { ...ownedAnimals };
+    const updatedCounters = { ...counters };
+
+    if (action === 'increment') {
+      if (!updatedAnimals[animal]) {
+        updatedAnimals[animal] = 1;
+      } else {
+        updatedAnimals[animal]++;
+      }
+      updatedCounters[animal] = updatedAnimals[animal];
+    } else if (action === 'decrement') {
+      if (updatedAnimals[animal] && updatedAnimals[animal] > 0) {
+        updatedAnimals[animal]--;
+        updatedCounters[animal] = updatedAnimals[animal];
+      }
+    }
 
     setOwnedAnimals(updatedAnimals);
+    setCounters(updatedCounters);
+
     localStorage.setItem('ownedAnimals', JSON.stringify(updatedAnimals));
+    localStorage.setItem('counters', JSON.stringify(updatedCounters));
   };
 
-  const countOwnedAnimals = () => {
-    return ownedAnimals.length;
+  const renderCounter = (animal) => {
+    return (
+      <span className="counter">
+        <button onClick={() => handleAnimalToggle(animal, 'decrement')}>-</button>
+        {counters[animal] || 0}
+        <button onClick={() => handleAnimalToggle(animal, 'increment')}>+</button>
+      </span>
+    );
   };
 
   return (
     <>
     <h1>Lista De Arquimonstros</h1>
-    <p>Em Posse: {countOwnedAnimals()}/286</p>
+    <p className="total">Total: {totalOwned}</p>
     <div className="App">
       <div className="etapaCard">
       <h2>Etapa 20</h2>
       <ul>
         {etapa20.map(animal => (
           <li key={animal}>
-             <label className={ownedAnimals.includes(animal) ? 'label-checked' : ''}>
+             <label className={ownedAnimals[animal] ? 'label-checked' : ''}>
               <input
                 type="checkbox"
-                checked={ownedAnimals.includes(animal)}
+                checked={Boolean(ownedAnimals[animal])}
                 onChange={() => handleAnimalToggle(animal)}
               />
-              {animal}
+             {animal} {renderCounter(animal)}
             </label>
           </li>
         ))}
@@ -376,13 +407,13 @@ const etapa21 = ["Ladinosujo, o Desarrumado",
       <ul>
         {etapa21.map(animal => (
           <li key={animal}>
-            <label className={ownedAnimals.includes(animal) ? 'label-checked' : ''}>
+             <label className={ownedAnimals[animal] ? 'label-checked' : ''}>
               <input
                 type="checkbox"
-                checked={ownedAnimals.includes(animal)}
+                checked={Boolean(ownedAnimals[animal])}
                 onChange={() => handleAnimalToggle(animal)}
               />
-              {animal}
+             {animal} {renderCounter(animal)}
             </label>
           </li>
         ))}
@@ -394,234 +425,234 @@ const etapa21 = ["Ladinosujo, o Desarrumado",
       <ul>
         {etapa22.map(animal => (
           <li key={animal}>
-            <label className={ownedAnimals.includes(animal) ? 'label-checked' : ''}>
-              <input
-                type="checkbox"
-                checked={ownedAnimals.includes(animal)}
-                onChange={() => handleAnimalToggle(animal)}
-              />
-              {animal}
-            </label>
-          </li>
-        ))}
-      </ul>
-      </div>
+          <label className={ownedAnimals[animal] ? 'label-checked' : ''}>
+           <input
+             type="checkbox"
+             checked={Boolean(ownedAnimals[animal])}
+             onChange={() => handleAnimalToggle(animal)}
+           />
+          {animal} {renderCounter(animal)}
+         </label>
+       </li>
+     ))}
+   </ul>
+   </div>
 
       <div className="etapaCard">
       <h2>Etapa 23</h2>
       <ul>
         {etapa23.map(animal => (
           <li key={animal}>
-            <label className={ownedAnimals.includes(animal) ? 'label-checked' : ''}>
-              <input
-                type="checkbox"
-                checked={ownedAnimals.includes(animal)}
-                onChange={() => handleAnimalToggle(animal)}
-              />
-              {animal}
-            </label>
-          </li>
-        ))}
-      </ul>
-      </div>
+          <label className={ownedAnimals[animal] ? 'label-checked' : ''}>
+           <input
+             type="checkbox"
+             checked={Boolean(ownedAnimals[animal])}
+             onChange={() => handleAnimalToggle(animal)}
+           />
+          {animal} {renderCounter(animal)}
+         </label>
+       </li>
+     ))}
+   </ul>
+   </div>
 
       <div className="etapaCard">
       <h2>Etapa 24</h2>
       <ul>
         {etapa24.map(animal => (
           <li key={animal}>
-            <label className={ownedAnimals.includes(animal) ? 'label-checked' : ''}>
-              <input
-                type="checkbox"
-                checked={ownedAnimals.includes(animal)}
-                onChange={() => handleAnimalToggle(animal)}
-              />
-              {animal}
-            </label>
-          </li>
-        ))}
-      </ul>
-      </div>
+          <label className={ownedAnimals[animal] ? 'label-checked' : ''}>
+           <input
+             type="checkbox"
+             checked={Boolean(ownedAnimals[animal])}
+             onChange={() => handleAnimalToggle(animal)}
+           />
+          {animal} {renderCounter(animal)}
+         </label>
+       </li>
+     ))}
+   </ul>
+   </div>
 
       <div className="etapaCard">
       <h2>Etapa 25</h2>
       <ul>
         {etapa25.map(animal => (
           <li key={animal}>
-            <label className={ownedAnimals.includes(animal) ? 'label-checked' : ''}>
-              <input
-                type="checkbox"
-                checked={ownedAnimals.includes(animal)}
-                onChange={() => handleAnimalToggle(animal)}
-              />
-              {animal}
-            </label>
-          </li>
-        ))}
-      </ul>
-      </div>
+          <label className={ownedAnimals[animal] ? 'label-checked' : ''}>
+           <input
+             type="checkbox"
+             checked={Boolean(ownedAnimals[animal])}
+             onChange={() => handleAnimalToggle(animal)}
+           />
+          {animal} {renderCounter(animal)}
+         </label>
+       </li>
+     ))}
+   </ul>
+   </div>
 
       <div className="etapaCard">
       <h2>Etapa 26</h2>
       <ul>
         {etapa26.map(animal => (
           <li key={animal}>
-            <label className={ownedAnimals.includes(animal) ? 'label-checked' : ''}>
-              <input
-                type="checkbox"
-                checked={ownedAnimals.includes(animal)}
-                onChange={() => handleAnimalToggle(animal)}
-              />
-              {animal}
-            </label>
-          </li>
-        ))}
-      </ul>
-      </div>
+          <label className={ownedAnimals[animal] ? 'label-checked' : ''}>
+           <input
+             type="checkbox"
+             checked={Boolean(ownedAnimals[animal])}
+             onChange={() => handleAnimalToggle(animal)}
+           />
+          {animal} {renderCounter(animal)}
+         </label>
+       </li>
+     ))}
+   </ul>
+   </div>
 
       <div className="etapaCard">
       <h2>Etapa 27</h2>
       <ul>
         {etapa27.map(animal => (
           <li key={animal}>
-            <label className={ownedAnimals.includes(animal) ? 'label-checked' : ''}>
-              <input
-                type="checkbox"
-                checked={ownedAnimals.includes(animal)}
-                onChange={() => handleAnimalToggle(animal)}
-              />
-              {animal}
-            </label>
-          </li>
-        ))}
-      </ul>
-      </div>
+          <label className={ownedAnimals[animal] ? 'label-checked' : ''}>
+           <input
+             type="checkbox"
+             checked={Boolean(ownedAnimals[animal])}
+             onChange={() => handleAnimalToggle(animal)}
+           />
+          {animal} {renderCounter(animal)}
+         </label>
+       </li>
+     ))}
+   </ul>
+   </div>
 
       <div className="etapaCard">
       <h2>Etapa 28</h2>
       <ul>
         {etapa28.map(animal => (
           <li key={animal}>
-            <label className={ownedAnimals.includes(animal) ? 'label-checked' : ''}>
-              <input
-                type="checkbox"
-                checked={ownedAnimals.includes(animal)}
-                onChange={() => handleAnimalToggle(animal)}
-              />
-              {animal}
-            </label>
-          </li>
-        ))}
-      </ul>
-      </div>
+          <label className={ownedAnimals[animal] ? 'label-checked' : ''}>
+           <input
+             type="checkbox"
+             checked={Boolean(ownedAnimals[animal])}
+             onChange={() => handleAnimalToggle(animal)}
+           />
+          {animal} {renderCounter(animal)}
+         </label>
+       </li>
+     ))}
+   </ul>
+   </div>
 
       <div className="etapaCard">
       <h2>Etapa 29</h2>
       <ul>
         {etapa29.map(animal => (
           <li key={animal}>
-            <label className={ownedAnimals.includes(animal) ? 'label-checked' : ''}>
-              <input
-                type="checkbox"
-                checked={ownedAnimals.includes(animal)}
-                onChange={() => handleAnimalToggle(animal)}
-              />
-              {animal}
-            </label>
-          </li>
-        ))}
-      </ul>
-      </div>
+          <label className={ownedAnimals[animal] ? 'label-checked' : ''}>
+           <input
+             type="checkbox"
+             checked={Boolean(ownedAnimals[animal])}
+             onChange={() => handleAnimalToggle(animal)}
+           />
+          {animal} {renderCounter(animal)}
+         </label>
+       </li>
+     ))}
+   </ul>
+   </div>
 
       <div className="etapaCard">
       <h2>Etapa 30</h2>
       <ul>
         {etapa30.map(animal => (
           <li key={animal}>
-            <label className={ownedAnimals.includes(animal) ? 'label-checked' : ''}>
-              <input
-                type="checkbox"
-                checked={ownedAnimals.includes(animal)}
-                onChange={() => handleAnimalToggle(animal)}
-              />
-              {animal}
-            </label>
-          </li>
-        ))}
-      </ul>
-      </div>
+          <label className={ownedAnimals[animal] ? 'label-checked' : ''}>
+           <input
+             type="checkbox"
+             checked={Boolean(ownedAnimals[animal])}
+             onChange={() => handleAnimalToggle(animal)}
+           />
+          {animal} {renderCounter(animal)}
+         </label>
+       </li>
+     ))}
+   </ul>
+   </div>
 
       <div className="etapaCard">
       <h2>Etapa 31</h2>
       <ul>
         {etapa31.map(animal => (
           <li key={animal}>
-            <label className={ownedAnimals.includes(animal) ? 'label-checked' : ''}>
-              <input
-                type="checkbox"
-                checked={ownedAnimals.includes(animal)}
-                onChange={() => handleAnimalToggle(animal)}
-              />
-              {animal}
-            </label>
-          </li>
-        ))}
-      </ul>
-      </div>
+          <label className={ownedAnimals[animal] ? 'label-checked' : ''}>
+           <input
+             type="checkbox"
+             checked={Boolean(ownedAnimals[animal])}
+             onChange={() => handleAnimalToggle(animal)}
+           />
+          {animal} {renderCounter(animal)}
+         </label>
+       </li>
+     ))}
+   </ul>
+   </div>
 
       <div className="etapaCard">
       <h2>Etapa 32</h2>
       <ul>
         {etapa32.map(animal => (
-          <li key={animal}>
-            <label className={ownedAnimals.includes(animal) ? 'label-checked' : ''}>
-              <input
-                type="checkbox"
-                checked={ownedAnimals.includes(animal)}
-                onChange={() => handleAnimalToggle(animal)}
-              />
-              {animal}
-            </label>
-          </li>
-        ))}
-      </ul>
-      </div>
+         <li key={animal}>
+         <label className={ownedAnimals[animal] ? 'label-checked' : ''}>
+          <input
+            type="checkbox"
+            checked={Boolean(ownedAnimals[animal])}
+            onChange={() => handleAnimalToggle(animal)}
+          />
+         {animal} {renderCounter(animal)}
+        </label>
+      </li>
+    ))}
+  </ul>
+  </div>
 
       <div className="etapaCard">
       <h2>Etapa 33</h2>
       <ul>
         {etapa33.map(animal => (
           <li key={animal}>
-            <label className={ownedAnimals.includes(animal) ? 'label-checked' : ''}>
-              <input
-                type="checkbox"
-                checked={ownedAnimals.includes(animal)}
-                onChange={() => handleAnimalToggle(animal)}
-              />
-              {animal}
-            </label>
-          </li>
-        ))}
-      </ul>
-      </div>
+          <label className={ownedAnimals[animal] ? 'label-checked' : ''}>
+           <input
+             type="checkbox"
+             checked={Boolean(ownedAnimals[animal])}
+             onChange={() => handleAnimalToggle(animal)}
+           />
+          {animal} {renderCounter(animal)}
+         </label>
+       </li>
+     ))}
+   </ul>
+   </div>
 
       <div className="etapaCard">
       <h2>Etapa 34</h2>
       <ul>
         {etapa34.map(animal => (
-          <li key={animal}>
-            <label className={ownedAnimals.includes(animal) ? 'label-checked' : ''}>
-              <input
-                type="checkbox"
-                checked={ownedAnimals.includes(animal)}
-                onChange={() => handleAnimalToggle(animal)}
-              />
-              {animal}
-            </label>
-          </li>
-        ))}
-      </ul>
-      </div>
+         <li key={animal}>
+         <label className={ownedAnimals[animal] ? 'label-checked' : ''}>
+          <input
+            type="checkbox"
+            checked={Boolean(ownedAnimals[animal])}
+            onChange={() => handleAnimalToggle(animal)}
+          />
+         {animal} {renderCounter(animal)}
+        </label>
+      </li>
+    ))}
+  </ul>
+  </div>
 
     </div>
     <footer className="fot">
