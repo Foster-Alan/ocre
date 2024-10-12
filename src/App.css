@@ -58,7 +58,7 @@ label {
 }
 
 .label-checked {
-  color: red;
+  color: rgb(0, 255, 55);
 }
 
 .counter {
@@ -76,5 +76,51 @@ button {
 input[type="checkbox"] {
   display: none;
 }
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+}
+
+.download-button {
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.download-button:hover {
+  background-color: #45a049;
+}
+
+.import-button {
+  background-color: #4CAF50; /* Verde */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  text-align: center;
+  display: inline-block;
+}
+
+.import-button:hover {
+  background-color: #45a049;
+  transform: scale(1.05); /* Efeito de zoom ao passar o mouse */
+}
+
+.import-button:active {
+  background-color: #3e8e41;
+  transform: scale(0.95); /* Efeito ao clicar */
+}
+
 
 
